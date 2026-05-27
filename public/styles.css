@@ -1,0 +1,511 @@
+/* ============================================
+   CSS Variables & Reset
+   ============================================ */
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --bg-dark: #1f2937;
+    --bg-light: #f3f4f6;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border: #e5e7eb;
+    --white: #ffffff;
+    
+    --white-square: #f0d9b5;
+    --black-square: #b58863;
+    --highlight: #baca44;
+    --attack: #f59e0b;
+    
+    --padding-sm: 0.5rem;
+    --padding-md: 1rem;
+    --padding-lg: 1.5rem;
+    --padding-xl: 2rem;
+    
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-primary);
+    background: var(--bg-light);
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    padding: var(--padding-xl);
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--padding-sm);
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+main {
+    flex: 1;
+    padding: var(--padding-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+footer {
+    background: var(--bg-dark);
+    color: var(--white);
+    padding: var(--padding-lg);
+    text-align: center;
+    margin-top: var(--padding-xl);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Content Wrapper
+   ============================================ */
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--padding-xl);
+    margin-bottom: var(--padding-xl);
+}
+
+.board-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-md);
+}
+
+.analysis-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================
+   Chessboard
+   ============================================ */
+
+.chessboard {
+    width: 100%;
+    aspect-ratio: 1;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    gap: 0;
+    background: var(--border);
+    border: 3px solid var(--text-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.square.white {
+    background-color: var(--white-square);
+}
+
+.square.black {
+    background-color: var(--black-square);
+}
+
+.square.highlight {
+    background-color: var(--highlight);
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.square.attack {
+    background-color: var(--attack);
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.square:hover {
+    opacity: 0.85;
+}
+
+.square.selected {
+    box-shadow: inset 0 0 0 3px var(--danger);
+}
+
+.square.valid-move::after {
+    content: '';
+    width: 20%;
+    height: 20%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+}
+
+/* ============================================
+   Board Controls
+   ============================================ */
+
+.board-controls {
+    display: flex;
+    gap: var(--padding-md);
+    justify-content: center;
+}
+
+/* ============================================
+   Analysis Panel
+   ============================================ */
+
+.analysis-panel {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--padding-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-lg);
+}
+
+.analysis-panel h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: var(--padding-md);
+}
+
+.analysis-panel h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--padding-sm);
+}
+
+/* ============================================
+   Evaluation Box
+   ============================================ */
+
+.evaluation-box {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-md);
+    padding: var(--padding-md);
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+}
+
+.eval-bar {
+    flex: 1;
+    height: 30px;
+    background: #e5e7eb;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.eval-fill {
+    height: 100%;
+    width: 50%;
+    background: linear-gradient(90deg, var(--danger) 0%, #f3f4f6 50%, var(--success) 100%);
+    transition: width 0.3s ease;
+}
+
+.eval-score {
+    min-width: 60px;
+    font-weight: 600;
+    font-size: 1.125rem;
+    text-align: right;
+}
+
+/* ============================================
+   Best Move Box
+   ============================================ */
+
+.best-move-box {
+    padding: var(--padding-md);
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--success);
+}
+
+.best-move {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--success);
+    font-family: monospace;
+}
+
+/* ============================================
+   Variations Box
+   ============================================ */
+
+.variations-box {
+    padding: var(--padding-md);
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+}
+
+.variations-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-sm);
+}
+
+.variation-item {
+    padding: var(--padding-sm) var(--padding-md);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary);
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* ============================================
+   Stats Box
+   ============================================ */
+
+.stats-box {
+    padding: var(--padding-md);
+    background: var(--bg-light);
+    border-radius: var(--radius-md);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--padding-md);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--padding-md);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: var(--padding-sm);
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary);
+    font-family: monospace;
+}
+
+/* ============================================
+   Input Section
+   ============================================ */
+
+.input-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--padding-xl);
+    margin-bottom: var(--padding-xl);
+    background: var(--white);
+    padding: var(--padding-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.fen-input-box,
+.pgn-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-sm);
+}
+
+.fen-input-box label,
+.pgn-input-box label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.fen-input-box input,
+.pgn-input-box textarea {
+    padding: var(--padding-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: monospace;
+    font-size: 0.875rem;
+    resize: none;
+}
+
+.fen-input-box input:focus,
+.pgn-input-box textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.fen-input-box {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--padding-sm);
+}
+
+.fen-input-box input {
+    flex: 1;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+    padding: var(--padding-md) var(--padding-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #f3f4f6;
+    color: var(--text-primary);
+}
+
+.btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-small {
+    padding: var(--padding-sm) var(--padding-md);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Engine Status
+   ============================================ */
+
+.engine-status {
+    padding: var(--padding-lg);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-md);
+    font-weight: 500;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 2s infinite;
+}
+
+.status-indicator.ready .status-dot {
+    background: var(--success);
+}
+
+.status-indicator.waiting .status-dot {
+    background: var(--warning);
+}
+
+.status-indicator.error .status-dot {
+    background: var(--danger);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.status-text {
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 1024px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .input-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.875rem;
+    }
+    
+    main {
+        padding: var(--padding-lg);
+    }
+    
+    .square {
+        font-size: 2rem;
+    }
+    
+    .board-controls {
+        flex-wrap: wrap;
+    }
+}

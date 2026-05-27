@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>♟️ Chess Analyzer</h1>
+            <p>Real-time chess position analysis</p>
+        </header>
+
+        <main>
+            <div class="content-wrapper">
+                <!-- Board Section -->
+                <div class="board-section">
+                    <div id="chessboard" class="chessboard"></div>
+                    <div class="board-controls">
+                        <button id="resetBtn" class="btn">Reset Board</button>
+                        <button id="flipBtn" class="btn">Flip Board</button>
+                        <button id="analyzeBtn" class="btn btn-primary">Analyze Position</button>
+                    </div>
+                </div>
+
+                <!-- Analysis Section -->
+                <div class="analysis-section">
+                    <div class="analysis-panel">
+                        <h2>Analysis</h2>
+                        
+                        <div class="evaluation-box">
+                            <div class="eval-bar">
+                                <div id="evalBar" class="eval-fill"></div>
+                            </div>
+                            <span id="evalScore" class="eval-score">0.0</span>
+                        </div>
+
+                        <div class="best-move-box">
+                            <h3>Best Move</h3>
+                            <p id="bestMove" class="best-move">--</p>
+                        </div>
+
+                        <div class="variations-box">
+                            <h3>Top Variations</h3>
+                            <div id="variations" class="variations-list">
+                                <p class="placeholder">Analyze to see variations</p>
+                            </div>
+                        </div>
+
+                        <div class="stats-box">
+                            <h3>Engine Stats</h3>
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="stat-label">Depth</span>
+                                    <span id="depth" class="stat-value">--</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Nodes</span>
+                                    <span id="nodes" class="stat-value">--</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">Time</span>
+                                    <span id="time" class="stat-value">--</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Section -->
+            <div class="input-section">
+                <div class="fen-input-box">
+                    <label for="fenInput">FEN Position:</label>
+                    <input 
+                        type="text" 
+                        id="fenInput" 
+                        placeholder="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+                        value="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+                    >
+                    <button id="loadFenBtn" class="btn btn-small">Load FEN</button>
+                </div>
+
+                <div class="pgn-input-box">
+                    <label for="pgnInput">PGN (Game Analysis):</label>
+                    <textarea 
+                        id="pgnInput" 
+                        placeholder="Paste PGN here for full game analysis"
+                        rows="4"
+                    ></textarea>
+                    <button id="analyzePgnBtn" class="btn btn-small">Analyze Game</button>
+                </div>
+            </div>
+
+            <!-- Engine Status -->
+            <div class="engine-status">
+                <div id="engineStatus" class="status-indicator waiting">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting to engine...</span>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Chess Analyzer v1.0 | Powered by Stockfish</p>
+        </footer>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="board.js"></script>
+    <script src="analyzer.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
