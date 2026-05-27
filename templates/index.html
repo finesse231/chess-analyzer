@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="app-shell">
+        <section class="board-area" aria-label="Chess board analysis">
+            <div class="topbar">
+                <div>
+                    <h1>Chess Analyzer</h1>
+                    <p id="positionLabel">Starting position</p>
+                </div>
+                <button id="analyzeButton" type="button">Analyze</button>
+            </div>
+
+            <div class="board-wrap">
+                <div class="coordinates files">
+                    <span>a</span><span>b</span><span>c</span><span>d</span>
+                    <span>e</span><span>f</span><span>g</span><span>h</span>
+                </div>
+                <div class="board-row">
+                    <div class="coordinates ranks">
+                        <span>8</span><span>7</span><span>6</span><span>5</span>
+                        <span>4</span><span>3</span><span>2</span><span>1</span>
+                    </div>
+                    <div class="board-with-eval">
+                        <div class="eval-bar" aria-label="Engine evaluation">
+                            <div id="blackEval" class="eval-fill black"></div>
+                            <div id="evalMarker" class="eval-marker">0.0</div>
+                        </div>
+                        <div class="board-stack">
+                            <div id="board" class="board" aria-label="Current chess position"></div>
+                            <svg id="arrowLayer" class="arrow-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls" aria-label="Move navigation">
+                <button id="firstMove" type="button" title="Start">|&lt;</button>
+                <button id="prevMove" type="button" title="Previous">&lt;</button>
+                <button id="nextMove" type="button" title="Next">&gt;</button>
+                <button id="lastMove" type="button" title="End">&gt;|</button>
+            </div>
+        </section>
+
+        <aside class="analysis-panel" aria-label="Analysis controls and results">
+            <label for="pgnInput">PGN or move list</label>
+            <textarea id="pgnInput" spellcheck="false">1. e4 e5 2. Nf3 Nc6 3. Bb5 a6</textarea>
+
+            <div id="playerStats" class="player-stats" aria-live="polite"></div>
+            <div id="summary" class="summary-grid" aria-live="polite"></div>
+            <section class="review-panel" aria-label="Mistake review">
+                <div>
+                    <span>Game review</span>
+                    <strong id="reviewStatus">Analyze a game to review mistakes.</strong>
+                </div>
+                <div class="review-actions">
+                    <button id="reviewMistakes" type="button">Review mistakes</button>
+                    <button id="prevIssue" type="button" title="Previous issue">&lt;</button>
+                    <button id="nextIssue" type="button" title="Next issue">&gt;</button>
+                </div>
+                <p id="coachNote">Questionable moves will appear here after analysis.</p>
+            </section>
+            <section class="best-line-panel" aria-label="Engine best line">
+                <span>Best line</span>
+                <strong id="bestLine">Analyze a game to see Stockfish's preferred line.</strong>
+            </section>
+            <div id="status" class="status" role="status"></div>
+            <div id="moveList" class="move-list" aria-label="Analyzed moves"></div>
+        </aside>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+stockfish.exe
+stockfish.exe.backup
+node_modules/
+.python-packages/
+__pycache__/
+*.pyc
+venv/
